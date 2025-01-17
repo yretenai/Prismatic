@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2025 Nobody
+# SPDX-License-Identifier: CC0-1.0
+
+name: "[Swift] Code Quality"
+
+on: [push]
+
+jobs:
+  swift-cq:
+    name: "Swift CQ [${{ matrix.os }}]"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: yretenai/setup-swift@unsafe
+        with:
+          swift-version: "6.0.3"
+      - uses: actions/checkout@v4
+      - name: Lint
+        run: swift format lint --configuration swift-format.json --strict --recursive .
