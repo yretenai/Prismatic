@@ -7,7 +7,7 @@ on: [push]
 
 jobs:
   swift-cq:
-    name: "Swift CQ [${{ matrix.os }}]"
+    name: "Swift CQ"
     runs-on: ubuntu-latest
     steps:
       - uses: yretenai/setup-swift@unsafe

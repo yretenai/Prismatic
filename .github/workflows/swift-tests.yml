@@ -7,7 +7,7 @@ on: [push]
 
 jobs:
   swift-test:
-    name: "Swift Test [${{ matrix.os }}]"
+    name: "Swift Test"
     runs-on: ubuntu-latest
     steps:
       - uses: yretenai/setup-swift@unsafe
