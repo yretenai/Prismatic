@@ -17,7 +17,13 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "PrismaticCodex"),
+			name: "TSCFileSystem",
+			swiftSettings: [
+				.swiftLanguageMode(.v5)
+			]),
+		.target(
+			name: "PrismaticCodex",
+			dependencies: ["TSCFileSystem"]),
 		.executableTarget(
 			name: "Prismatic",
 			dependencies: ["PrismaticCodex"]),
