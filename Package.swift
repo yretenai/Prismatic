@@ -6,6 +6,7 @@ import PackageDescription
 
 let package = Package(
 	name: "PrismaticCodex",
+	platforms: [.macOS(.v14)],
 	products: [
 		.library(
 			name: "PrismaticCodex",
