@@ -804,7 +804,7 @@ private protocol _FileWatcher {
 		let delegate: FSEventStreamDelegate
 
 		/// The thread on which the stream is running.
-		private var thread: TSCBasic.Thread?
+		private var thread: TSCFileSystem.Thread?
 
 		/// The run loop attached to the stream.
 		private var runLoop: CFRunLoop?
