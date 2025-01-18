@@ -9,7 +9,7 @@ import TSCFileSystem
 public class JournalFile {
 	init?(filePath: String) {
 		guard let fileHandle = FileHandle(forReadingAtPath: filePath) else {
-			return nil	
+			return nil
 		}
 
 		handle = fileHandle
@@ -17,7 +17,7 @@ public class JournalFile {
 
 		// todo: process journal, continue if no Continue or Shutdown event is found
 
-		guard let path =  try? AbsolutePath(validating: filePath) else {
+		guard let path = try? AbsolutePath(validating: filePath) else {
 			return
 		}
 
