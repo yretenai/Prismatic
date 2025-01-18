@@ -19,6 +19,7 @@ let package = Package(
 	targets: [
 		.target(
 			name: "TSCFileSystem",
+			path: "Vendor/TSCFileSystem",
 			swiftSettings: [
 				.swiftLanguageMode(.v5)
 			]),
