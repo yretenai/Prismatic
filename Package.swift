@@ -16,17 +16,14 @@ let package = Package(
 			targets: ["Prismatic"]
 		),
 	],
+	dependencies: [
+		.package(url: "https://github.com/yretenai/FileMonitor.git", branch: "main")
+	],
 	targets: [
 		.target(
-			name: "TSCFileSystem",
-			path: "Vendor/TSCFileSystem",
-			swiftSettings: [
-				.swiftLanguageMode(.v5)
-			]),
-		.target(
 			name: "PrismaticCodex",
-			dependencies: [
-				.target(name: "TSCFileSystem")
+			dependencies:[
+				.product(name: "FileMonitor", package: "FileMonitor")
 			]),
 		.executableTarget(
 			name: "Prismatic",

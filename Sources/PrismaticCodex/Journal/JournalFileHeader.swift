@@ -10,10 +10,10 @@ import Foundation
 /// file. See also the "Continued" event.
 public class JournalFileHeader: JournalEntry {
 	override init(json: [String: Any]) {
-		part = Int(json["part"] as? String, radix: 10) ?? 0
-		language = json["language"] as? String ?? "English/XX"
-		gameVersion = json["gameversion"] as? String ?? "4.0.0.0"
-		build = json["build"] as? String ?? "r0"
+		part = json["part"] as? Int ?? 0
+		language = (json["language"] as? String ?? "English/XX").trimmingCharacters(in: .whitespacesAndNewlines)
+		gameVersion = (json["gameversion"] as? String ?? "4.0.0.0").trimmingCharacters(in: .whitespacesAndNewlines)
+		build = (json["build"] as? String ?? "r0/r0").trimmingCharacters(in: .whitespacesAndNewlines)
 		isOdyssey = json["Odyssey"] as? Bool ?? false
 
 		super.init(json: json)

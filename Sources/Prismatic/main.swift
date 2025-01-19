@@ -1,4 +1,20 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
-print("Hello, world!")
+import Foundation
+import PrismaticCodex
+
+guard
+	let stream = JournalStream(
+		saveDataPath: URL(fileURLWithPath: "/home/ada/.config/elite-logs", isDirectory: true),
+		delegate: { event in
+			print(event)
+		})
+else {
+	exit(0)
+}
+
+print("running")
+stream.start()
+print("waiting")
+RunLoop.current.run()

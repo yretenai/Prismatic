@@ -3,14 +3,9 @@
 
 import Foundation
 
-/// A protocol to act as a delegate for handling new events.
-public protocol JournalHandler {
-	func handleEntry(event: JournalEntry)
-}
-
 /// Monitors a specific journal file.
-public class JournalFile {
-	init?(filePath path: URL, delegate: JournalHandler) {
+public final class JournalFile {
+	init?(filePath path: URL, delegate: @escaping (JournalEntry) -> Void) {
 		guard let handle = try? FileHandle(forReadingFrom: path) else {
 			return nil
 		}
@@ -71,12 +66,7 @@ public class JournalFile {
 		}
 	}
 
-	private func update(data rawData: Data) -> Bool {
-		var data = rawData
-		if data.last == 0xD {
-			data = data[...data.index(data.count, offsetBy: -1)]
-		}
-
+	private func update(data: Data) -> Bool {
 		guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
 			return false
 		}
@@ -85,7 +75,7 @@ public class JournalFile {
 			return false
 		}
 
-		delegate.handleEntry(event: journal)
+		delegate(journal)
 
 		if isStream && journal.event == .shutdown || journal.event == .continued {
 			isComplete = true
@@ -98,5 +88,5 @@ public class JournalFile {
 	private let handle: FileHandle
 	public let isStream: Bool
 	public var isComplete: Bool
-	private let delegate: JournalHandler
+	private let delegate: (JournalEntry) -> Void
 }

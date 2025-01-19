@@ -4,7 +4,7 @@
 import Foundation
 
 /// Basic generic class for all journal entries.
-public class JournalEntry {
+public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible {
 	init(json: [String: Any]) {
 		timestamp = (try? Date(json["timestamp"] as? String ?? "2016-07-22T10:20:01Z", strategy: .iso8601)) ?? Date(timeIntervalSince1970: 0)
 		event = JournalEvent(caseInsensitiveRawValue: json["event"] as? String) ?? .invalidEvent
@@ -13,6 +13,14 @@ public class JournalEntry {
 
 	public var description: String {
 		"\(event) event at \(timestamp)"
+	}
+
+	public var debugDescription: String {
+		guard let json = try? JSONSerialization.data(withJSONObject: rawData, options: .prettyPrinted) else {
+			return description
+		}
+
+		return String(data: json, encoding: .utf8) ?? description
 	}
 
 	/// The time in GMT.

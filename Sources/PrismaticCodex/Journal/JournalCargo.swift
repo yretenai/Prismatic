@@ -7,9 +7,9 @@ import Foundation
 public struct JournalCargoItem {
 	public init(json: [String: Any]) {
 		name = LocalisedSymbolId(json: json, key: "Name")
-		count = Int(json["Count"] as? String, radix: 10) ?? 0
-		stolen = Int(json["Stolen"] as? String, radix: 10) ?? 0
-		missionId = Int(json["Stolen"] as? String, radix: 10)
+		count = json["Count"] as? Int ?? 0
+		stolen = json["Stolen"] as? Int ?? 0
+		missionId = json["Stolen"] as? Int
 	}
 
 	/// The name of this item.

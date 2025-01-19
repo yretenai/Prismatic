@@ -11,6 +11,7 @@ extension CaseInsensitiveEnum where RawValue == String {
 
 		if let found = Self.allCases.first(where: { $0.rawValue.caseInsensitiveCompare(value) == .orderedSame }) {
 			self = found
+			return
 		}
 
 		return nil
