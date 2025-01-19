@@ -24,7 +24,7 @@ public class JournalEntry {
 	/// The raw underlying JSON data.
 	public let rawData: [String: Any]
 
-	public static func loadJournal(json: [String: Any]) -> JournalEntry? {
+	public static func load(json: [String: Any]) -> JournalEntry? {
 		let event = JournalEvent(caseInsensitiveRawValue: json["event"] as? String) ?? .invalidEvent
 
 		switch event {

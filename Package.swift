@@ -25,13 +25,18 @@ let package = Package(
 			]),
 		.target(
 			name: "PrismaticCodex",
-			dependencies: ["TSCFileSystem"]),
+			dependencies: [
+				.target(name: "TSCFileSystem")
+			]),
 		.executableTarget(
 			name: "Prismatic",
-			dependencies: ["PrismaticCodex"]),
+			dependencies: [
+				.target(name: "PrismaticCodex")
+			]),
 		.testTarget(
 			name: "PrismaticCodexTests",
-			dependencies: ["PrismaticCodex"]
-		),
+			dependencies: [
+				.target(name: "PrismaticCodex")
+			]),
 	]
 )

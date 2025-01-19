@@ -5,4 +5,6 @@ public enum JournalEvent: String, CaseInsensitiveEnum {
 	case invalidEvent
 	case fileHeader
 	case cargo
+	case continued
+	case shutdown
 }
