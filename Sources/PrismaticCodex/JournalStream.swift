@@ -14,11 +14,7 @@ public final class JournalStream: FileDidChangeDelegate {
 		self.delegate = delegate
 		monitoredFiles = [:]
 		self.monitor = nil
-		#if os(Windows)
-			self.monitor = FileMonitorWindows(directory: saveLocation, delegate: self)
-		#else
-			self.monitor = try? FileMonitor(directory: saveLocation, delegate: self)
-		#endif
+		self.monitor = try? FileMonitor(directory: saveLocation, delegate: self)
 
 		if let files = try? FileManager.default.contentsOfDirectory(
 			at: saveLocation, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
@@ -46,11 +42,7 @@ public final class JournalStream: FileDidChangeDelegate {
 	private let saveLocation: URL
 	private let delegate: (JournalEntry) -> Void
 	private var monitoredFiles: [String: JournalFile]
-	#if os(Windows)
-		private var monitor: FileMonitorWindows?
-	#else
-		private var monitor: FileMonitor?
-	#endif
+	private var monitor: FileMonitor?
 
 	private func update(path: URL) {
 		guard path.pathExtension == "json" || path.pathExtension == "log" else {
@@ -88,11 +80,7 @@ public final class JournalStream: FileDidChangeDelegate {
 	}
 
 	public func start() {
-		#if os(Windows)
-			monitor?.start()
-		#else
-			try? monitor?.start()
-		#endif
+		try? monitor?.start()
 	}
 
 	public func stop() {
