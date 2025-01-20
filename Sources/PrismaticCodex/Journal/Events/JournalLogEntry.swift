@@ -5,14 +5,14 @@ import Foundation
 
 /// Basic generic class for all journal entries.
 public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible {
-	init(json: [String: Any]) {
+	init(json: [String: Any], event: JournalEvent) {
+		self.event = event
 		timestamp = (try? Date(json["timestamp"] as? String ?? "2016-07-22T10:20:01Z", strategy: .iso8601)) ?? Date(timeIntervalSince1970: 0)
-		event = JournalEvent(caseInsensitiveRawValue: json["event"] as? String) ?? .invalidEvent
 		rawData = json
 	}
 
 	public var description: String {
-		"\(event) event at \(timestamp)"
+		"\(event) (\(rawData["event"] as? String ?? "unknown")) event at \(timestamp)"
 	}
 
 	public var debugDescription: String {
@@ -37,11 +37,11 @@ public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible
 
 		switch event {
 			case .fileHeader:
-				return JournalFileHeader(json: json)
+				return JournalFileHeader(json: json, event: event)
 			case .cargo:
-				return JournalCargo(json: json)
+				return JournalCargo(json: json, event: event)
 			default:
-				return JournalEntry(json: json)
+				return JournalEntry(json: json, event: event)
 		}
 	}
 }

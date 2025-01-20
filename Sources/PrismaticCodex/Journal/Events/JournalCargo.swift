@@ -33,11 +33,11 @@ public struct JournalCargoItem {
 ///
 /// Note that the full data is now written to a separate Cargo.json file.
 public class JournalCargo: JournalEntry {
-	override init(json: [String: Any]) {
+	override init(json: [String: Any], event: JournalEvent) {
 		vessel = VesselType(caseInsensitiveRawValue: json["Vessel"] as? String) ?? .invalid
 		inventory = (json["Inventory"] as? [[String: Any]])?.map({ JournalCargoItem(json: $0) }) ?? []
 
-		super.init(json: json)
+		super.init(json: json, event: event)
 	}
 
 	public override var description: String {

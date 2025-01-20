@@ -9,14 +9,14 @@ import Foundation
 /// new file started with an increased part number: the heading entry is added at the beginning of every
 /// file. See also the "Continued" event.
 public class JournalFileHeader: JournalEntry {
-	override init(json: [String: Any]) {
+	override init(json: [String: Any], event: JournalEvent) {
 		part = json["part"] as? Int ?? 0
 		language = (json["language"] as? String ?? "English/XX").trimmingCharacters(in: .whitespacesAndNewlines)
 		gameVersion = (json["gameversion"] as? String ?? "4.0.0.0").trimmingCharacters(in: .whitespacesAndNewlines)
 		build = (json["build"] as? String ?? "r0/r0").trimmingCharacters(in: .whitespacesAndNewlines)
 		isOdyssey = json["Odyssey"] as? Bool ?? false
 
-		super.init(json: json)
+		super.init(json: json, event: event)
 	}
 
 	public override var description: String {
