@@ -22,7 +22,7 @@ let package = Package(
 	targets: [
 		.target(
 			name: "PrismaticCodex",
-			dependencies:[
+			dependencies: [
 				.product(name: "FileMonitor", package: "FileMonitor")
 			]),
 		.executableTarget(
