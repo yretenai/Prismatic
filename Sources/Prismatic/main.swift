@@ -6,7 +6,7 @@ import PrismaticCodex
 
 guard
 	let stream = JournalStream(
-		saveDataPath: URL(fileURLWithPath: "/home/ada/.config/elite-logs", isDirectory: true),
+		saveDataPath: URL(fileURLWithPath: "~/.config/elite-logs", isDirectory: true),
 		delegate: { event in
 			print(event)
 		})
