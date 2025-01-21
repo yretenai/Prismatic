@@ -7,269 +7,269 @@
 /// ref: https://hosting.zaonce.net/community/journal/v37/Journal_Manual_v37.pdf
 /// ref: https://elite-journal.readthedocs.io/en/latest/
 /// ref: https://forums.frontier.co.uk/threads/journal-docs-for-odyssey-release.575010
-public enum JournalEvent: String, RawRepresentable, CaseInsensitiveEnum, Sendable {
-	case invalidEvent
-	case allBodiesFound = "FSSAllBodiesFound"
-	case appliedToSquadron
-	case approachBody
-	case approachSettlement
-	case asteroidCracked
-	case autoDiscoveryScan = "DiscoveryScan"
-	case backpack
-	case backpackChange
-	case backpackMaterials
-	case bodySignals = "FSSBodySignals"
-	case bookDropship
-	case bookTaxi
-	case bounty
-	case buggyDestroyed = "SRVDestroyed"
-	case buyAmmo
-	case buyDrones
-	case buyExplorationData
-	case buyMicroResources
-	case buySuit
-	case buyTradeData
-	case buyWeapon
-	case cancelDropship
-	case cancelTaxi
-	case capitalShipBond = "CapShipBond"
-	case cargo
-	case cargoDepot
-	case cargoTransfer
-	case carrierBankTransfer
-	case carrierBuy
-	case carrierCancelDecommission
-	case carrierCrewServices
-	case carrierDecommission
-	case carrierDepositFuel
-	case carrierDockingPermission
-	case carrierFinance
-	case carrierJump
-	case carrierJumpCancelled
-	case carrierJumpRequest
-	case carrierModulePack
-	case carrierNameChange
-	case carrierShipPack
-	case carrierStats
-	case carrierTradeOrder
-	case changeCrewRole
-	case clearImpound
-	case clearSavedGame
-	case cockpitBreached
-	case codexEntry
-	case collectCargo
-	case collectItems
-	case commander
-	case commitCrime
-	case communityGoal
-	case communityGoalDiscard
-	case communityGoalJoin
-	case communityGoalReward
-	case continued
-	case createSuitLoadout
-	case crewAssign
-	case crewFire
-	case crewHire
-	case crewLaunchFighter
-	case crewMemberJoins
-	case crewMemberQuits
-	case crewMemberRoleChange
-	case crimeVictim
-	case datalinkScan
-	case datalinkVoucher
-	case dataScanned
-	case deleteSuitLoadout
-	case deliverPowerMicroResources
-	case died
-	case disbandedSquadron
-	case discoveryScan = "FSSDiscoveryScan"
-	case disembark
-	case dockBuggy = "DockSRV"
-	case docked
-	case dockFighter
-	case dockingCancelled
-	case dockingDenied
-	case dockingGranted
-	case dockingRequested
-	case dockingTimeout
-	case dropItems
-	case dropshipDeploy
-	case ejectCargo
-	case embark
-	case endCrewSession
-	case engineerApply
-	case engineerContribution
-	case engineerCraft
-	case engineerLegacyConvert
-	case engineerProgress
-	case escapeInterdiction
-	case factionKillBond
-	case fetchRemoteModule
-	case fieldMaintenanceRepairs = "AFMURepairs"
-	case fighterDestroyed
-	case fighterRebuilt
-	case fileHeader
-	case fleetCarrierMaterials = "FCMaterials"
-	case friends
-	case fuelScoop
-	case heatDamage
-	case heatWarning
-	case holoscreenHacked
-	case hullDamage
-	case interdicted
-	case interdiction
-	case invitedToSquadron
-	case jetConeBoost
-	case jetConeDamage
-	case joinCrew = "joinACrew"
-	case joinedSquadron
-	case jumpSystem = "FSDJump"
-	case kickCrewMember
-	case kickedFromSquadron
-	case launchBuggy = "LaunchSRV"
-	case launchDrone
-	case launchFighter
-	case leaveBody
-	case leftSquadron
-	case liftoff
-	case loadGame
-	case loadout
-	case loadoutEquipModule
-	case loadoutRemoveModule
-	case location
-	case market
-	case marketBuy
-	case marketSell
-	case massModuleStore
-	case materialCollected
-	case materialDiscarded
-	case materialDiscovered
-	case materials
-	case materialTrade
-	case miningRefined
-	case missionAbandoned
-	case missionAccepted
-	case missionCompleted
-	case missionFailed
-	case missionRedirected
-	case missions
-	case moduleBuy
-	case moduleBuyAndStore
-	case moduleInfo
-	case moduleRetrieve
-	case moduleSell
-	case moduleSellRemote
-	case moduleStore
-	case moduleSwap
-	case multiSellExplorationData
-	case music
-	case navBeaconScan
-	case navRoute
-	case navRouteClear
-	case newCommander
-	case npcCrewPaidWage
-	case npcCrewRank
-	case outfitting
-	case passengers
-	case payBounties
-	case payFines
-	case payLegacyFines
-	case playerKill = "PVPKill"
-	case powerplay
-	case powerplayCollect
-	case powerplayDefect
-	case powerplayDeliver
-	case powerplayFastTrack
-	case powerplayJoin
-	case powerplayLeave
-	case powerplaySalary
-	case powerplayVote
-	case powerplayVoucher
-	case progress
-	case promotion
-	case prospectedAsteroid
-	case quitCrew = "quitACrew"
-	case rank
-	case rebootRepair
-	case receiveText
-	case redeemVoucher
-	case refuelAll
-	case refuelPartial
-	case renameSuitLoadout
-	case repair
-	case repairAll
-	case repairDrone
-	case reputation
-	case requestPowerMicroResources
-	case reservoirReplenished
-	case restockVehicle
-	case resupply
-	case resurrect
-	case scan
-	case scanBaryCentre
-	case scanned
-	case scanOrganic
-	case scientificResearch
-	case screenshot
-	case searchAndRescue
-	case selfDestruct
-	case sellDrones
-	case sellExplorationData
-	case sellMicroResources
-	case sellOrganicData
-	case sellShipOnRebuy
-	case sellSuit
-	case sellWeapon
-	case sendText
-	case setUserShipName
-	case sharedBookmarkToSquadron
-	case shieldState
-	case shipLocker
-	case shipLockerMaterials
-	case shipRedeemed
-	case shipTargeted
-	case shipyard
-	case shipyardBuy
-	case shipyardNew
-	case shipyardRedeem
-	case shipyardSell
-	case shipyardSwap
-	case shipyardTransfer
-	case shutdown
-	case signalDiscovered = "FSSSignalDiscovered"
-	case signalDrop = "USSDrop"
-	case squadronCreated
-	case squadronDemotion
-	case squadronPromotion
-	case squadronStartup
-	case startJump
-	case statistics
-	case status
-	case storedModules
-	case storedShips
-	case suitLoadout
-	case supercruiseDestinationDrop
-	case supercruiseEntry
-	case supercruiseExit
-	case surfaceScanComplete = "SAAScanComplete"
-	case surfaceSignalsFound = "SAASignalsFound"
-	case switchSuitLoadout
-	case synthesis
-	case systemsShutdown
-	case targetSystem = "FSDTarget"
-	case technologyBroker
-	case touchdown
-	case tradeMicroResources
-	case transferMicroResources
-	case underAttack
-	case undocked
-	case upgradeSuit
-	case upgradeWeapon
-	case useConsumable
-	case vehicleSwitch
-	case wingAdd
-	case wingInvite
-	case wingJoin
-	case wingLeave
-	case wonTrophy = "wonATrophyForSquadron"
+public enum JournalEvent: String, RawRepresentable, Sendable {
+	case invalidEvent = "invalidevent"
+	case allBodiesFound = "fssallbodiesfound"
+	case appliedToSquadron = "appliedtosquadron"
+	case approachBody = "approachbody"
+	case approachSettlement = "approachsettlement"
+	case asteroidCracked = "asteroidcracked"
+	case autoDiscoveryScan = "discoveryscan"
+	case backpack = "backpack"
+	case backpackChange = "backpackchange"
+	case backpackMaterials = "backpackmaterials"
+	case bodySignals = "fssbodysignals"
+	case bookDropship = "bookdropship"
+	case bookTaxi = "booktaxi"
+	case bounty = "bounty"
+	case buggyDestroyed = "srvdestroyed"
+	case buyAmmo = "buyammo"
+	case buyDrones = "buydrones"
+	case buyExplorationData = "buyexplorationdata"
+	case buyMicroResources = "buymicroresources"
+	case buySuit = "buysuit"
+	case buyTradeData = "buytradedata"
+	case buyWeapon = "buyweapon"
+	case cancelDropship = "canceldropship"
+	case cancelTaxi = "canceltaxi"
+	case capitalShipBond = "capshipbond"
+	case cargo = "cargo"
+	case cargoDepot = "cargodepot"
+	case cargoTransfer = "cargotransfer"
+	case carrierBankTransfer = "carrierbanktransfer"
+	case carrierBuy = "carrierbuy"
+	case carrierCancelDecommission = "carriercanceldecommission"
+	case carrierCrewServices = "carriercrewservices"
+	case carrierDecommission = "carrierdecommission"
+	case carrierDepositFuel = "carrierdepositfuel"
+	case carrierDockingPermission = "carrierdockingpermission"
+	case carrierFinance = "carrierfinance"
+	case carrierJump = "carrierjump"
+	case carrierJumpCancelled = "carrierjumpcancelled"
+	case carrierJumpRequest = "carrierjumprequest"
+	case carrierModulePack = "carriermodulepack"
+	case carrierNameChange = "carriernamechange"
+	case carrierShipPack = "carriershippack"
+	case carrierStats = "carrierstats"
+	case carrierTradeOrder = "carriertradeorder"
+	case changeCrewRole = "changecrewrole"
+	case clearImpound = "clearimpound"
+	case clearSavedGame = "clearsavedgame"
+	case cockpitBreached = "cockpitbreached"
+	case codexEntry = "codexentry"
+	case collectCargo = "collectcargo"
+	case collectItems = "collectitems"
+	case commander = "commander"
+	case commitCrime = "commitcrime"
+	case communityGoal = "communitygoal"
+	case communityGoalDiscard = "communitygoaldiscard"
+	case communityGoalJoin = "communitygoaljoin"
+	case communityGoalReward = "communitygoalreward"
+	case continued = "continued"
+	case createSuitLoadout = "createsuitloadout"
+	case crewAssign = "crewassign"
+	case crewFire = "crewfire"
+	case crewHire = "crewhire"
+	case crewLaunchFighter = "crewlaunchfighter"
+	case crewMemberJoins = "crewmemberjoins"
+	case crewMemberQuits = "crewmemberquits"
+	case crewMemberRoleChange = "crewmemberrolechange"
+	case crimeVictim = "crimevictim"
+	case datalinkScan = "datalinkscan"
+	case datalinkVoucher = "datalinkvoucher"
+	case dataScanned = "datascanned"
+	case deleteSuitLoadout = "deletesuitloadout"
+	case deliverPowerMicroResources = "deliverpowermicroresources"
+	case died = "died"
+	case disbandedSquadron = "disbandedsquadron"
+	case discoveryScan = "fssdiscoveryscan"
+	case disembark = "disembark"
+	case dockBuggy = "docksrv"
+	case docked = "docked"
+	case dockFighter = "dockfighter"
+	case dockingCancelled = "dockingcancelled"
+	case dockingDenied = "dockingdenied"
+	case dockingGranted = "dockinggranted"
+	case dockingRequested = "dockingrequested"
+	case dockingTimeout = "dockingtimeout"
+	case dropItems = "dropitems"
+	case dropshipDeploy = "dropshipdeploy"
+	case ejectCargo = "ejectcargo"
+	case embark = "embark"
+	case endCrewSession = "endcrewsession"
+	case engineerApply = "engineerapply"
+	case engineerContribution = "engineercontribution"
+	case engineerCraft = "engineercraft"
+	case engineerLegacyConvert = "engineerlegacyconvert"
+	case engineerProgress = "engineerprogress"
+	case escapeInterdiction = "escapeinterdiction"
+	case factionKillBond = "factionkillbond"
+	case fetchRemoteModule = "fetchremotemodule"
+	case fieldMaintenanceRepairs = "afmurepairs"
+	case fighterDestroyed = "fighterdestroyed"
+	case fighterRebuilt = "fighterrebuilt"
+	case fileHeader = "fileheader"
+	case fleetCarrierMaterials = "fcmaterials"
+	case friends = "friends"
+	case fuelScoop = "fuelscoop"
+	case heatDamage = "heatdamage"
+	case heatWarning = "heatwarning"
+	case holoscreenHacked = "holoscreenhacked"
+	case hullDamage = "hulldamage"
+	case interdicted = "interdicted"
+	case interdiction = "interdiction"
+	case invitedToSquadron = "invitedtosquadron"
+	case jetConeBoost = "jetconeboost"
+	case jetConeDamage = "jetconedamage"
+	case joinCrew = "joinacrew"
+	case joinedSquadron = "joinedsquadron"
+	case jumpSystem = "fsdjump"
+	case kickCrewMember = "kickcrewmember"
+	case kickedFromSquadron = "kickedfromsquadron"
+	case launchBuggy = "launchsrv"
+	case launchDrone = "launchdrone"
+	case launchFighter = "launchfighter"
+	case leaveBody = "leavebody"
+	case leftSquadron = "leftsquadron"
+	case liftoff = "liftoff"
+	case loadGame = "loadgame"
+	case loadout = "loadout"
+	case loadoutEquipModule = "loadoutequipmodule"
+	case loadoutRemoveModule = "loadoutremovemodule"
+	case location = "location"
+	case market = "market"
+	case marketBuy = "marketbuy"
+	case marketSell = "marketsell"
+	case massModuleStore = "massmodulestore"
+	case materialCollected = "materialcollected"
+	case materialDiscarded = "materialdiscarded"
+	case materialDiscovered = "materialdiscovered"
+	case materials = "materials"
+	case materialTrade = "materialtrade"
+	case miningRefined = "miningrefined"
+	case missionAbandoned = "missionabandoned"
+	case missionAccepted = "missionaccepted"
+	case missionCompleted = "missioncompleted"
+	case missionFailed = "missionfailed"
+	case missionRedirected = "missionredirected"
+	case missions = "missions"
+	case moduleBuy = "modulebuy"
+	case moduleBuyAndStore = "modulebuyandstore"
+	case moduleInfo = "moduleinfo"
+	case moduleRetrieve = "moduleretrieve"
+	case moduleSell = "modulesell"
+	case moduleSellRemote = "modulesellremote"
+	case moduleStore = "modulestore"
+	case moduleSwap = "moduleswap"
+	case multiSellExplorationData = "multisellexplorationdata"
+	case music = "music"
+	case navBeaconScan = "navbeaconscan"
+	case navRoute = "navroute"
+	case navRouteClear = "navrouteclear"
+	case newCommander = "newcommander"
+	case npcCrewPaidWage = "npccrewpaidwage"
+	case npcCrewRank = "npccrewrank"
+	case outfitting = "outfitting"
+	case passengers = "passengers"
+	case payBounties = "paybounties"
+	case payFines = "payfines"
+	case payLegacyFines = "paylegacyfines"
+	case playerKill = "pvpkill"
+	case powerplay = "powerplay"
+	case powerplayCollect = "powerplaycollect"
+	case powerplayDefect = "powerplaydefect"
+	case powerplayDeliver = "powerplaydeliver"
+	case powerplayFastTrack = "powerplayfasttrack"
+	case powerplayJoin = "powerplayjoin"
+	case powerplayLeave = "powerplayleave"
+	case powerplaySalary = "powerplaysalary"
+	case powerplayVote = "powerplayvote"
+	case powerplayVoucher = "powerplayvoucher"
+	case progress = "progress"
+	case promotion = "promotion"
+	case prospectedAsteroid = "prospectedasteroid"
+	case quitCrew = "quitacrew"
+	case rank = "rank"
+	case rebootRepair = "rebootrepair"
+	case receiveText = "receivetext"
+	case redeemVoucher = "redeemvoucher"
+	case refuelAll = "refuelall"
+	case refuelPartial = "refuelpartial"
+	case renameSuitLoadout = "renamesuitloadout"
+	case repair = "repair"
+	case repairAll = "repairall"
+	case repairDrone = "repairdrone"
+	case reputation = "reputation"
+	case requestPowerMicroResources = "requestpowermicroresources"
+	case reservoirReplenished = "reservoirreplenished"
+	case restockVehicle = "restockvehicle"
+	case resupply = "resupply"
+	case resurrect = "resurrect"
+	case scan = "scan"
+	case scanBaryCentre = "scanbarycentre"
+	case scanned = "scanned"
+	case scanOrganic = "scanorganic"
+	case scientificResearch = "scientificresearch"
+	case screenshot = "screenshot"
+	case searchAndRescue = "searchandrescue"
+	case selfDestruct = "selfdestruct"
+	case sellDrones = "selldrones"
+	case sellExplorationData = "sellexplorationdata"
+	case sellMicroResources = "sellmicroresources"
+	case sellOrganicData = "sellorganicdata"
+	case sellShipOnRebuy = "sellshiponrebuy"
+	case sellSuit = "sellsuit"
+	case sellWeapon = "sellweapon"
+	case sendText = "sendtext"
+	case setUserShipName = "setusershipname"
+	case sharedBookmarkToSquadron = "sharedbookmarktosquadron"
+	case shieldState = "shieldstate"
+	case shipLocker = "shiplocker"
+	case shipLockerMaterials = "shiplockermaterials"
+	case shipRedeemed = "shipredeemed"
+	case shipTargeted = "shiptargeted"
+	case shipyard = "shipyard"
+	case shipyardBuy = "shipyardbuy"
+	case shipyardNew = "shipyardnew"
+	case shipyardRedeem = "shipyardredeem"
+	case shipyardSell = "shipyardsell"
+	case shipyardSwap = "shipyardswap"
+	case shipyardTransfer = "shipyardtransfer"
+	case shutdown = "shutdown"
+	case signalDiscovered = "fsssignaldiscovered"
+	case signalDrop = "ussdrop"
+	case squadronCreated = "squadroncreated"
+	case squadronDemotion = "squadrondemotion"
+	case squadronPromotion = "squadronpromotion"
+	case squadronStartup = "squadronstartup"
+	case startJump = "startjump"
+	case statistics = "statistics"
+	case status = "status"
+	case storedModules = "storedmodules"
+	case storedShips = "storedships"
+	case suitLoadout = "suitloadout"
+	case supercruiseDestinationDrop = "supercruisedestinationdrop"
+	case supercruiseEntry = "supercruiseentry"
+	case supercruiseExit = "supercruiseexit"
+	case surfaceScanComplete = "saascancomplete"
+	case surfaceSignalsFound = "saasignalsfound"
+	case switchSuitLoadout = "switchsuitloadout"
+	case synthesis = "synthesis"
+	case systemsShutdown = "systemsshutdown"
+	case targetSystem = "fsdtarget"
+	case technologyBroker = "technologybroker"
+	case touchdown = "touchdown"
+	case tradeMicroResources = "trademicroresources"
+	case transferMicroResources = "transfermicroresources"
+	case underAttack = "underattack"
+	case undocked = "undocked"
+	case upgradeSuit = "upgradesuit"
+	case upgradeWeapon = "upgradeweapon"
+	case useConsumable = "useconsumable"
+	case vehicleSwitch = "vehicleswitch"
+	case wingAdd = "wingadd"
+	case wingInvite = "winginvite"
+	case wingJoin = "wingjoin"
+	case wingLeave = "wingleave"
+	case wonTrophy = "wonatrophyforsquadron"
 }

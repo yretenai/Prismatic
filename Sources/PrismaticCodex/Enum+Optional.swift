@@ -10,23 +10,3 @@ extension RawRepresentable {
 		self.init(rawValue: value)
 	}
 }
-
-protocol CaseInsensitiveEnum: RawRepresentable, CaseIterable {}
-
-extension CaseInsensitiveEnum where RawValue == String {
-	init?(caseInsensitiveRawValue maybeValue: RawValue?) {
-		guard var value = maybeValue else {
-			return nil
-		}
-
-		// lowercased is slightly faster than uppercased?
-		value = value.lowercased()
-
-		if let found = Self.allCases.first(where: { $0.rawValue.lowercased() == value }) {
-			self = found
-			return
-		}
-
-		return nil
-	}
-}

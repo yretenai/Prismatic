@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
-struct JournalEventRegistry: Sendable {
+public struct JournalEventRegistry: Sendable {
 	fileprivate typealias Registry = [JournalEvent: JournalEntry.Type]
 	private let typeRegistry: Registry
 
@@ -17,12 +17,12 @@ struct JournalEventRegistry: Sendable {
 	}
 
 	public func load(json: [String: Any]) -> JournalEntry {
-		guard let event = JournalEvent(caseInsensitiveRawValue: json["event"] as? String) else {
-			return JournalFileHeader(json: json, event: .invalidEvent)
+		guard let event = JournalEvent(rawValue: (json["event"] as? String)?.lowercased()) else {
+			return JournalEntry(json: json, event: .invalidEvent)
 		}
 
-		guard let type = typeRegistry[event] else {
-			return JournalFileHeader(json: json, event: event)
+		guard let type: JournalEntry.Type = typeRegistry[event] else {
+			return JournalEntry(json: json, event: event)
 		}
 
 		return type.init(json: json, event: event)

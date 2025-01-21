@@ -5,7 +5,7 @@ import Testing
 
 @testable import PrismaticCodex
 
-private enum TestEnum: String, CaseInsensitiveEnum {
+private enum TestEnum: String {
 	case invalid
 	case nya
 }
@@ -18,19 +18,4 @@ private enum TestEnum: String, CaseInsensitiveEnum {
 @Test func enumRawRepresentableValue() throws {
 	let value = TestEnum(rawValue: "nya" as String?)
 	#expect(value == .nya)
-}
-
-@Test func enumCaseInsensitiveNil() throws {
-	let value = TestEnum(caseInsensitiveRawValue: nil)
-	#expect(value == nil)
-}
-
-@Test func enumCaseInsensitive() throws {
-	let value = TestEnum(caseInsensitiveRawValue: "NYA")
-	#expect(value == .nya)
-}
-
-@Test func enumCaseInsensitiveInvalid() throws {
-	let value = TestEnum(caseInsensitiveRawValue: "MEOW")
-	#expect(value == nil)
 }
