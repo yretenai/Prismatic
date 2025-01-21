@@ -56,7 +56,7 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.carrierTradeOrder] = JournalCarrierTradeOrder.self
 		typeRegistry[.changeCrewRole] = JournalChangeCrewRole.self
 		typeRegistry[.clearImpound] = JournalClearImpound.self
-		typeRegistry[.clearSavedGame] = JournalClearSavedGame.self
+		typeRegistry[.clearSavedGame] = JournalCommander.self
 		typeRegistry[.cockpitBreached] = JournalCockpitBreached.self
 		typeRegistry[.codexEntry] = JournalCodexEntry.self
 		typeRegistry[.collectCargo] = JournalCollectCargo.self

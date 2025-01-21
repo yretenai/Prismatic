@@ -8,13 +8,13 @@ import Testing
 @Test func frontierIdInvalid() throws {
 	let symbol = FrontierId("A0")
 
-	#expect(symbol.value == -1)
+	#expect(symbol.value == UInt.max)
 }
 
 @Test func frontierIdInvalidNumber() throws {
 	let symbol = FrontierId("FQ")
 
-	#expect(symbol.value == -1)
+	#expect(symbol.value == UInt.max)
 }
 
 @Test func frontierId() throws {

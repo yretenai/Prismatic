@@ -1,17 +1,16 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
-import Foundation
-
-/// TODO: Fill me out.
-public class JournalNewCommander: JournalEntry {
+/// Emitted when a new commander is made.
+public class JournalNewCommander: JournalCommander {
 	required init(json: PrismaticJsonObject, event: JournalEvent) {
-		// todo
-
+		package = json["Package"]
 		super.init(json: json, event: event)
 	}
 
 	public override var description: String {
-		"\(super.description)"
+		"\(super.description), package: \(package ?? "none")"
 	}
+
+	public let package: String?
 }

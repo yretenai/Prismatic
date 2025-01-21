@@ -4,5 +4,5 @@
 /// Denotes that this event has body-related properties.
 public protocol BodyRelatedEvent {
 	var bodyName: String? { get }
-	var bodyId: Int? { get }
+	var bodyId: UInt? { get }
 }

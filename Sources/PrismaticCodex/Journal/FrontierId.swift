@@ -5,19 +5,19 @@
 public struct FrontierId: LosslessStringConvertible {
 	public init(_ description: String) {
 		guard description.count > 1 && description.first == "F" else {
-			value = -1
+			value = UInt.max
 			return
 		}
 
-		guard let value = Int(description[description.index(description.startIndex, offsetBy: 1)...], radix: 10) else {
-			value = -1
+		guard let value = UInt(description[description.index(description.startIndex, offsetBy: 1)...], radix: 10) else {
+			value = UInt.max
 			return
 		}
 
 		self.value = value
 	}
 
-	public init(_ id: Int) {
+	public init(_ id: UInt) {
 		value = id
 	}
 
@@ -25,9 +25,9 @@ public struct FrontierId: LosslessStringConvertible {
 		"F\(value)"
 	}
 
-	public let value: Int
+	public let value: UInt
 
-	public static func == (lhs: Self, rhs: Int) -> Bool {
+	public static func == (lhs: Self, rhs: UInt) -> Bool {
 		return lhs.value == rhs
 	}
 }

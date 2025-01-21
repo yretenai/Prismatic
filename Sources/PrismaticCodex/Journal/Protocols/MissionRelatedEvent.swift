@@ -3,5 +3,5 @@
 
 /// Denotes that this event has mission-related properties.
 public protocol MissionRelatedEvent {
-	var missionId: Int? { get }
+	var missionId: UInt? { get }
 }

@@ -53,8 +53,8 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return realValue
 	}
 
-	@inlinable subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T, nilOn: (T) -> Bool) -> T? {
-		guard let value: T = self[key, nilOn: nilOn] else {
+	@inlinable subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T, nilOn nillCheck: (T) -> Bool) -> T {
+		guard let value: T = self[key, nilOn: nillCheck] else {
 			return defaultValue()
 		}
 
@@ -79,11 +79,23 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return data[key] as? T
 	}
 
-	@inlinable func subarray<T: PrismaticObject>(_ key: String) -> [T]? {
+	@inlinable subscript<T: PrismaticObject>(_ key: String) -> [T]? {
 		return (data[key] as? [[String: Any]])?.map({ T(json: PrismaticJsonObject($0)) })
 	}
 
-	@inlinable func subarray<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> [T]) -> [T] {
-		return subarray(key) ?? defaultValue()
+	@inlinable subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> [T]) -> [T] {
+		return self[key] ?? defaultValue()
+	}
+
+	@inlinable subscript<T: PrismaticObject>(_ key: String) -> T? {
+		guard let json = data[key] as? [String: Any] else {
+			return nil
+		}
+
+		return T(json: PrismaticJsonObject(json))
+	}
+
+	@inlinable subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> T) -> T {
+		return self[key] ?? defaultValue()
 	}
 }

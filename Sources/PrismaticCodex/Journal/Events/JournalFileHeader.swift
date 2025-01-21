@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
-import Foundation
-
 /// Describbes an incremental journal file.
 ///
 /// If the play session goes on a long time, and the journal gets very large, the file will be closed and a

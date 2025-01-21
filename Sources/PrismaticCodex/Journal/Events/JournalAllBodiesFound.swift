@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
-import Foundation
-
 /// Emitted when all bodies in the system are identified.
 public class JournalAllBodiesFound: JournalEntry, SystemRelatedEvent {
 	required init(json: PrismaticJsonObject, event: JournalEvent) {
