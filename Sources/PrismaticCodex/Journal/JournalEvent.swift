@@ -206,7 +206,7 @@ public enum JournalEvent: String, RawRepresentable, Sendable {
 	case resupply = "resupply"
 	case resurrect = "resurrect"
 	case scan = "scan"
-	case scanBaryCentre = "scanbarycentre"
+	case scanBarycenter = "scanbarycentre"
 	case scanned = "scanned"
 	case scanOrganic = "scanorganic"
 	case scientificResearch = "scientificresearch"

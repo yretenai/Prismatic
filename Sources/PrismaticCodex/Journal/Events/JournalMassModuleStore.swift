@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// TODO: Fill me out
+/// TODO: Fill me out.
 public class JournalMassModuleStore: JournalEntry {
 	required init(json: [String: Any], event: JournalEvent) {
 		// todo

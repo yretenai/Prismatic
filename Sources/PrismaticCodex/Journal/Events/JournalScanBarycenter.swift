@@ -3,8 +3,8 @@
 
 import Foundation
 
-/// TODO: Fill me out
-public class JournalScanBaryCentre: JournalEntry {
+/// TODO: Fill me out.
+public class JournalScanBarycenter: JournalEntry {
 	required init(json: [String: Any], event: JournalEvent) {
 		// todo
 

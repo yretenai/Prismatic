@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Legiayayana <ada@chronovore.dev>
 // SPDX-License-Identifier: EUPL-1.2
 
+/// Journal Event Registration and dispatch system.
 public struct JournalEventRegistry: Sendable {
 	fileprivate typealias Registry = [JournalEvent: JournalEntry.Type]
 	private let typeRegistry: Registry
@@ -207,7 +208,7 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.resupply] = JournalResupply.self
 		typeRegistry[.resurrect] = JournalResurrect.self
 		typeRegistry[.scan] = JournalScan.self
-		typeRegistry[.scanBaryCentre] = JournalScanBaryCentre.self
+		typeRegistry[.scanBarycenter] = JournalScanBarycenter.self
 		typeRegistry[.scanned] = JournalScanned.self
 		typeRegistry[.scanOrganic] = JournalScanOrganic.self
 		typeRegistry[.scientificResearch] = JournalScientificResearch.self
