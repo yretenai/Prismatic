@@ -5,7 +5,7 @@ import Foundation
 
 /// Basic generic class for all journal entries.
 public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible {
-	init(json: [String: Any], event: JournalEvent) {
+	public required init(json: [String: Any], event: JournalEvent) {
 		self.event = event
 		timestamp = (try? Date(json["timestamp"] as? String ?? "2016-07-22T10:20:01Z", strategy: .iso8601)) ?? Date(timeIntervalSince1970: 0)
 		rawData = json
@@ -31,17 +31,4 @@ public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible
 
 	/// The raw underlying JSON data.
 	public let rawData: [String: Any]
-
-	public static func load(json: [String: Any]) -> JournalEntry? {
-		let event = JournalEvent(caseInsensitiveRawValue: json["event"] as? String) ?? .invalidEvent
-
-		switch event {
-			case .fileHeader:
-				return JournalFileHeader(json: json, event: event)
-			case .cargo:
-				return JournalCargo(json: json, event: event)
-			default:
-				return JournalEntry(json: json, event: event)
-		}
-	}
 }

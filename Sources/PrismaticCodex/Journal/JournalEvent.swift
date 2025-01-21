@@ -7,7 +7,7 @@
 /// ref: https://hosting.zaonce.net/community/journal/v37/Journal_Manual_v37.pdf
 /// ref: https://elite-journal.readthedocs.io/en/latest/
 /// ref: https://forums.frontier.co.uk/threads/journal-docs-for-odyssey-release.575010
-public enum JournalEvent: String, RawRepresentable, CaseInsensitiveEnum {
+public enum JournalEvent: String, RawRepresentable, CaseInsensitiveEnum, Sendable {
 	case invalidEvent
 	case allBodiesFound = "FSSAllBodiesFound"
 	case appliedToSquadron

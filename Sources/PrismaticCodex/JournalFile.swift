@@ -71,9 +71,7 @@ public final class JournalFile {
 			return false
 		}
 
-		guard let journal = JournalEntry.load(json: json) else {
-			return false
-		}
+		let journal = JournalEventRegistry.default.load(json: json)
 
 		delegate(journal)
 
