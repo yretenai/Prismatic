@@ -67,7 +67,7 @@ public final class JournalFile {
 	}
 
 	private func update(data: Data) -> Bool {
-		guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+		guard let json = PrismaticJsonObject(data: data) else {
 			return false
 		}
 

@@ -4,12 +4,12 @@
 import Foundation
 
 /// Represents a single item in cargo.
-public struct JournalCargoItem {
-	public init(json: [String: Any]) {
+public struct JournalCargoItem: MissionRelatedEvent, PrismaticObject {
+	public init(json: PrismaticJsonObject) {
 		name = LocalisedSymbolId(json: json, key: "Name")
-		count = json["Count"] as? Int ?? 0
-		stolen = json["Stolen"] as? Int ?? 0
-		missionId = json["Stolen"] as? Int
+		count = json["Count", default: 0]
+		stolen = json["Stolen", default: 0]
+		missionId = json["Stolen"]
 	}
 
 	/// The name of this item.
@@ -33,9 +33,9 @@ public struct JournalCargoItem {
 ///
 /// Note that the full data is now written to a separate Cargo.json file.
 public class JournalCargo: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
-		vessel = VesselType(rawValue: (json["Vessel"] as? String)?.lowercased()) ?? .invalid
-		inventory = (json["Inventory"] as? [[String: Any]])?.map({ JournalCargoItem(json: $0) }) ?? []
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
+		vessel = VesselType(rawValue: json["Vessel", default: "invalid"].lowercased()) ?? .invalid
+		inventory = json.subarray("Inventory", default: [])
 
 		super.init(json: json, event: event)
 	}

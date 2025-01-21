@@ -11,7 +11,7 @@ import Testing
 		"Value_Localised": "Nya!",
 	]
 
-	let symbol = LocalisedSymbolId(json: mock, key: "Value")
+	let symbol = LocalisedSymbolId(json: PrismaticJsonObject(mock), key: "Value")
 
 	#expect(symbol.description == "Nya!")
 	#expect(symbol.localisedValue == "Nya!")
@@ -24,7 +24,7 @@ import Testing
 		"Value": "nya"
 	]
 
-	let symbol = LocalisedSymbolId(json: mock, key: "Value")
+	let symbol = LocalisedSymbolId(json: PrismaticJsonObject(mock), key: "Value")
 
 	#expect(symbol.description == "nya")
 	#expect(symbol.localisedValue == nil)
@@ -35,7 +35,7 @@ import Testing
 @Test func localisedSymbolIdMissing() throws {
 	let mock: [String: Any] = [:]
 
-	let symbol = LocalisedSymbolId(json: mock, key: "Value")
+	let symbol = LocalisedSymbolId(json: PrismaticJsonObject(mock), key: "Value")
 
 	#expect(symbol.description == "Value_unknown")
 	#expect(symbol.localisedValue == nil)

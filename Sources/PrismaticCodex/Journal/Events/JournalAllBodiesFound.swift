@@ -3,15 +3,21 @@
 
 import Foundation
 
-/// TODO: Fill me out.
-public class JournalAllBodiesFound: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
-		// todo
+/// Emitted when all bodies in the system are identified.
+public class JournalAllBodiesFound: JournalEntry, SystemRelatedEvent {
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
+		systemName = json["SystemName"]
+		systemAddress = json["SystemAddress"]
+		count = json["Count", default: 0]
 
 		super.init(json: json, event: event)
 	}
 
 	public override var description: String {
-		"\(super.description)"
+		"\(super.description), system name: \(systemName ?? "nil"), address: \(systemAddress ?? 0), body count: \(count)"
 	}
+
+	public let systemName: String?
+	public let systemAddress: UInt?
+	public let count: Int
 }

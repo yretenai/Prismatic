@@ -7,9 +7,9 @@ import Foundation
 public struct LocalisedSymbolId: CustomStringConvertible {
 	private static let symbolIdentifiers: CharacterSet = CharacterSet(charactersIn: "$;").union(.whitespacesAndNewlines)
 
-	init(json: [String: Any], key: String) {
-		rawValue = json[key] as? String ?? "$\(key)_unknown;"
-		localisedValue = json["\(key)_Localised"] as? String
+	init(json: PrismaticJsonObject, key: String) {
+		rawValue = json[key, default: "$\(key)_unknown;"]
+		localisedValue = json["\(key)_Localised"]
 	}
 
 	public var description: String {

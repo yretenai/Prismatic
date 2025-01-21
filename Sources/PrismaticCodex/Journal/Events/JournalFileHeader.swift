@@ -9,12 +9,12 @@ import Foundation
 /// new file started with an increased part number: the heading entry is added at the beginning of every
 /// file. See also the "Continued" event.
 public class JournalFileHeader: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
-		part = json["part"] as? Int ?? 0
-		language = (json["language"] as? String ?? "English/XX").trimmingCharacters(in: .whitespacesAndNewlines)
-		gameVersion = (json["gameversion"] as? String ?? "4.0.0.0").trimmingCharacters(in: .whitespacesAndNewlines)
-		build = (json["build"] as? String ?? "r0/r0").trimmingCharacters(in: .whitespacesAndNewlines)
-		isOdyssey = json["Odyssey"] as? Bool ?? false
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
+		part = json["part", default: 0]
+		language = json["language", default: "English/XX"]
+		gameVersion = json["gameversion", default: "4.0.0.0"]
+		build = json["build", default: "r0/r0"]
+		isOdyssey = json["Odyssey", default: false]
 
 		super.init(json: json, event: event)
 	}

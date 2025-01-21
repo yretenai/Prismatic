@@ -3,15 +3,17 @@
 
 import Foundation
 
-/// TODO: Fill me out.
-public class JournalSquadronStartup: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
-		// todo
+/// Emitted on startup.
+public class JournalSquadronStartup: JournalSquadron {
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
+		rank = json["CurrentRank", default: 0]
 
 		super.init(json: json, event: event)
 	}
 
 	public override var description: String {
-		"\(super.description)"
+		"\(super.description), rank: \(rank)"
 	}
+
+	public let rank: Int
 }

@@ -5,7 +5,7 @@ import Foundation
 
 /// TODO: Fill me out.
 public class JournalSellOrganicData: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
 		// todo
 
 		super.init(json: json, event: event)

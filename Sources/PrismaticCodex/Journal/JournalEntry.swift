@@ -5,22 +5,18 @@ import Foundation
 
 /// Basic generic class for all journal entries.
 public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible {
-	public required init(json: [String: Any], event: JournalEvent) {
+	public required init(json: PrismaticJsonObject, event: JournalEvent) {
 		self.event = event
-		timestamp = (try? Date(json["timestamp"] as? String ?? "2016-07-22T10:20:01Z", strategy: .iso8601)) ?? Date(timeIntervalSince1970: 0)
+		timestamp = (try? Date(json["timestamp", default: "2016-07-22T10:20:01Z"], strategy: .iso8601)) ?? Date(timeIntervalSince1970: 0)
 		rawData = json
 	}
 
 	public var description: String {
-		"\(event) (\(rawData["event"] as? String ?? "unknown")) event at \(timestamp)"
+		"\(event) (\(rawData["event", default: "unknown"])) event at \(timestamp)"
 	}
 
 	public var debugDescription: String {
-		guard let json = try? JSONSerialization.data(withJSONObject: rawData, options: .prettyPrinted) else {
-			return description
-		}
-
-		return String(data: json, encoding: .utf8) ?? description
+		return rawData.description
 	}
 
 	/// The time in GMT.
@@ -30,5 +26,5 @@ public class JournalEntry: CustomStringConvertible, CustomDebugStringConvertible
 	public let event: JournalEvent
 
 	/// The raw underlying JSON data.
-	public let rawData: [String: Any]
+	public let rawData: PrismaticJsonObject
 }

@@ -5,7 +5,7 @@ import Foundation
 
 /// TODO: Fill me out.
 public class JournalCarrierModulePack: JournalEntry {
-	required init(json: [String: Any], event: JournalEvent) {
+	required init(json: PrismaticJsonObject, event: JournalEvent) {
 		// todo
 
 		super.init(json: json, event: event)

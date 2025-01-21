@@ -12,7 +12,7 @@ public struct JournalEventRegistry: Sendable {
 		var typeRegistry: Registry = [:]
 
 		typeRegistry[.allBodiesFound] = JournalAllBodiesFound.self
-		typeRegistry[.appliedToSquadron] = JournalAppliedToSquadron.self
+		typeRegistry[.appliedToSquadron] = JournalSquadron.self
 		typeRegistry[.approachBody] = JournalApproachBody.self
 		typeRegistry[.approachSettlement] = JournalApproachSettlement.self
 		typeRegistry[.asteroidCracked] = JournalAsteroidCracked.self
@@ -83,7 +83,7 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.deleteSuitLoadout] = JournalDeleteSuitLoadout.self
 		typeRegistry[.deliverPowerMicroResources] = JournalDeliverPowerMicroResources.self
 		typeRegistry[.died] = JournalDied.self
-		typeRegistry[.disbandedSquadron] = JournalDisbandedSquadron.self
+		typeRegistry[.disbandedSquadron] = JournalSquadron.self
 		typeRegistry[.discoveryScan] = JournalDiscoveryScan.self
 		typeRegistry[.disembark] = JournalDisembark.self
 		typeRegistry[.dockBuggy] = JournalDockBuggy.self
@@ -120,19 +120,19 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.hullDamage] = JournalHullDamage.self
 		typeRegistry[.interdicted] = JournalInterdicted.self
 		typeRegistry[.interdiction] = JournalInterdiction.self
-		typeRegistry[.invitedToSquadron] = JournalInvitedToSquadron.self
+		typeRegistry[.invitedToSquadron] = JournalSquadron.self
 		typeRegistry[.jetConeBoost] = JournalJetConeBoost.self
 		typeRegistry[.jetConeDamage] = JournalJetConeDamage.self
 		typeRegistry[.joinCrew] = JournalJoinCrew.self
-		typeRegistry[.joinedSquadron] = JournalJoinedSquadron.self
+		typeRegistry[.joinedSquadron] = JournalSquadron.self
 		typeRegistry[.jumpSystem] = JournalJumpSystem.self
 		typeRegistry[.kickCrewMember] = JournalKickCrewMember.self
-		typeRegistry[.kickedFromSquadron] = JournalKickedFromSquadron.self
+		typeRegistry[.kickedFromSquadron] = JournalSquadron.self
 		typeRegistry[.launchBuggy] = JournalLaunchBuggy.self
 		typeRegistry[.launchDrone] = JournalLaunchDrone.self
 		typeRegistry[.launchFighter] = JournalLaunchFighter.self
 		typeRegistry[.leaveBody] = JournalLeaveBody.self
-		typeRegistry[.leftSquadron] = JournalLeftSquadron.self
+		typeRegistry[.leftSquadron] = JournalSquadron.self
 		typeRegistry[.liftoff] = JournalLiftoff.self
 		typeRegistry[.loadGame] = JournalLoadGame.self
 		typeRegistry[.loadout] = JournalLoadout.self
@@ -224,7 +224,7 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.sellWeapon] = JournalSellWeapon.self
 		typeRegistry[.sendText] = JournalSendText.self
 		typeRegistry[.setUserShipName] = JournalSetUserShipName.self
-		typeRegistry[.sharedBookmarkToSquadron] = JournalSharedBookmarkToSquadron.self
+		typeRegistry[.sharedBookmarkToSquadron] = JournalSquadron.self
 		typeRegistry[.shieldState] = JournalShieldState.self
 		typeRegistry[.shipLocker] = JournalShipLocker.self
 		typeRegistry[.shipLockerMaterials] = JournalShipLockerMaterials.self
@@ -240,9 +240,9 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.shutdown] = JournalShutdown.self
 		typeRegistry[.signalDiscovered] = JournalSignalDiscovered.self
 		typeRegistry[.signalDrop] = JournalSignalDrop.self
-		typeRegistry[.squadronCreated] = JournalSquadronCreated.self
-		typeRegistry[.squadronDemotion] = JournalSquadronDemotion.self
-		typeRegistry[.squadronPromotion] = JournalSquadronPromotion.self
+		typeRegistry[.squadronCreated] = JournalSquadron.self
+		typeRegistry[.squadronDemotion] = JournalSquadronRankChange.self
+		typeRegistry[.squadronPromotion] = JournalSquadronRankChange.self
 		typeRegistry[.squadronStartup] = JournalSquadronStartup.self
 		typeRegistry[.startJump] = JournalStartJump.self
 		typeRegistry[.statistics] = JournalStatistics.self
@@ -273,13 +273,15 @@ public struct JournalEventRegistry: Sendable {
 		typeRegistry[.wingInvite] = JournalWingInvite.self
 		typeRegistry[.wingJoin] = JournalWingJoin.self
 		typeRegistry[.wingLeave] = JournalWingLeave.self
-		typeRegistry[.wonTrophy] = JournalWonTrophy.self
+		typeRegistry[.wonTrophy] = JournalSquadron.self
 
 		self.typeRegistry = typeRegistry
 	}
 
-	public func load(json: [String: Any]) -> JournalEntry {
-		guard let event = JournalEvent(rawValue: (json["event"] as? String)?.lowercased()) else {
+	public func load(json: PrismaticJsonObject) -> JournalEntry {
+		guard let eventName: String = json["event"],
+			let event = JournalEvent(rawValue: eventName.lowercased())
+		else {
 			return JournalEntry(json: json, event: .invalidEvent)
 		}
 
