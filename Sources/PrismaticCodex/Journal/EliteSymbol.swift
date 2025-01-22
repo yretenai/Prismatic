@@ -6,24 +6,24 @@ import Foundation
 // todo: check if symbols exist in the middle of strings, which would require another type to properly parse the text into spans.
 /// A formatted symbol which may contain parameters.
 public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible {
-	public enum EliteSymbolParseError: Error {
-		case unexpectedState(index: Int, state: String)
-		case emptyItemKey(index: Int)
-		case emptyTokenKey(index: Int)
+	public struct Item: CustomStringConvertible, CustomDebugStringConvertible {
+		public enum ParseError: Error {
+			case unexpectedState(index: Int, state: String)
+			case emptyItemKey(index: Int)
+			case emptyTokenKey(index: Int)
 
-		public var localizedDescription: String {
-			switch self {
-				case .unexpectedState(let index, let state):
-					return "Did not expect to be in the \(state) state at position \(index)"
-				case .emptyItemKey(let index):
-					return "Tried to insert an empty item key at position \(index)"
-				case .emptyTokenKey(let index):
-					return "Tried to insert an empty token at position \(index)"
+			public var localizedDescription: String {
+				switch self {
+					case .unexpectedState(let index, let state):
+						return "Did not expect to be in the \(state) state at position \(index)"
+					case .emptyItemKey(let index):
+						return "Tried to insert an empty item key at position \(index)"
+					case .emptyTokenKey(let index):
+						return "Tried to insert an empty token at position \(index)"
+				}
 			}
 		}
-	}
 
-	public struct Item: CustomStringConvertible, CustomDebugStringConvertible {
 		public struct Param: CustomStringConvertible, CustomDebugStringConvertible {
 			public init(key: String, value: Item) {
 				self.key = key
@@ -133,7 +133,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 			var state: State = .key
 			var key: String = ""
 			var itemKey: String? = nil
-			var values: [Item.Param]? = nil
+			var values: [Param]? = nil
 			var buffer: String = ""
 
 			mainLoop: while index < value.endIndex {
@@ -150,30 +150,30 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 							break
 						case .start:
 							guard state == .itemValue else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
+								throw ParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 
 							guard let key = itemKey,
 								let items = values
 							else {
-								throw EliteSymbolParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
+								throw ParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
 							}
 
-							values = items + [Item.Param(key: key, value: try parse(value: value, index: &index))]
+							values = items + [Param(key: key, value: try parse(value: value, index: &index))]
 							itemKey = nil
 							break
 						case .end, .itemSeparator:
 							guard state == .key || state == .itemValue else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
+								throw ParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							if state == .key {
 								key = buffer
 							} else if state == .itemValue && !key.isEmpty, let key = itemKey {
 								guard let items = values else {
-									throw EliteSymbolParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
+									throw ParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
 								}
 
-								values = items + [Item.Param(key: key, value: Item(raw: buffer))]
+								values = items + [Param(key: key, value: Item(raw: buffer))]
 								itemKey = nil
 							}
 							buffer = ""
@@ -187,13 +187,13 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 							break
 						case .itemKey:
 							guard values != nil else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
+								throw ParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							state = .itemKey
 							break
 						case .itemValue:
 							guard state == .itemKey else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
+								throw ParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							itemKey = buffer
 							buffer = ""
@@ -207,7 +207,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 			}
 
 			guard state == .end else {
-				throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
+				throw ParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 			}
 
 			return Item(key: key, params: values)
