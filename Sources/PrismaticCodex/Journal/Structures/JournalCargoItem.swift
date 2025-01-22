@@ -4,14 +4,14 @@
 /// Represents a single item in cargo.
 public struct JournalCargoItem: MissionRelatedEvent, PrismaticObject {
 	public init(json: PrismaticJsonObject) {
-		name = LocalisedSymbolId(json: json, key: "Name")
+		name = EliteSymbol(json: json, key: "Name")
 		count = json["Count", default: 0]
 		stolen = json["Stolen", default: 0]
 		missionId = json["Stolen"]
 	}
 
 	/// The name of this item.
-	public let name: LocalisedSymbolId
+	public let name: EliteSymbol
 
 	/// How many are in cargo.
 	public let count: Int
