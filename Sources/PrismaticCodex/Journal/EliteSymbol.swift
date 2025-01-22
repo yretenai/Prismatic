@@ -3,10 +3,11 @@
 
 import Foundation
 
-/// A symbol that may or may not be localised.
+// todo: check if symbols exist in the middle of strings, which would require another type to properly parse the text into spans.
+/// A formatted symbol which may contain parameters.
 public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible {
 	public enum EliteSymbolParseError: Error {
-		case unexpectedState(index: Int, state: Item.State)
+		case unexpectedState(index: Int, state: String)
 		case emptyItemKey(index: Int)
 		case emptyTokenKey(index: Int)
 
@@ -22,36 +23,37 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 		}
 	}
 
-	public struct ItemParam: CustomStringConvertible, CustomDebugStringConvertible {
-		init(key: String, value: Item) {
-			self.key = key
-			self.value = value
-		}
-		public let key: String
-		public let value: Item
-
-		public var description: String {
-			"\(key) = \(value.description)"
-		}
-
-		public var debugDescription: String {
-			var key = key
-			for token in Item.Token.allCases {
-				key.replace("\(token.rawValue)", with: "\\\(token.rawValue)")
+	public struct Item: CustomStringConvertible, CustomDebugStringConvertible {
+		public struct Param: CustomStringConvertible, CustomDebugStringConvertible {
+			public init(key: String, value: Item) {
+				self.key = key
+				self.value = value
 			}
 
-			return "#\(key)=\(value.debugDescription)"
-		}
-	}
+			public let key: String
+			public let value: Item
 
-	public struct Item: CustomStringConvertible, CustomDebugStringConvertible {
-		init(raw: String) {
+			public var description: String {
+				"\(key) = \(value.description)"
+			}
+
+			public var debugDescription: String {
+				var key = key
+				for token in Item.Token.allCases {
+					key.replace("\(token.rawValue)", with: "\\\(token.rawValue)")
+				}
+
+				return "#\(key)=\(value.debugDescription)"
+			}
+		}
+
+		public init(raw: String) {
 			key = raw
 			params = nil
 			isLiteral = true
 		}
 
-		init(key: String, params: [ItemParam]?) {
+		public init(key: String, params: [Param]?) {
 			self.key = key
 			isLiteral = false
 			if let params = params, !params.isEmpty {
@@ -62,7 +64,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 		}
 
 		public let key: String
-		public let params: [ItemParam]?
+		public let params: [Param]?
 		public let isLiteral: Bool
 
 		public var description: String {
@@ -92,7 +94,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 
 		private static let keyTerminators: [Character] = [";", ":"]
 
-		public enum State: Sendable {
+		private enum State: Sendable {
 			case literal
 			case key
 			case items
@@ -131,7 +133,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 			var state: State = .key
 			var key: String = ""
 			var itemKey: String? = nil
-			var values: [ItemParam]? = nil
+			var values: [Item.Param]? = nil
 			var buffer: String = ""
 
 			mainLoop: while index < value.endIndex {
@@ -148,7 +150,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 							break
 						case .start:
 							guard state == .itemValue else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: state)
+								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 
 							guard let key = itemKey,
@@ -157,12 +159,12 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 								throw EliteSymbolParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
 							}
 
-							values = items + [ItemParam(key: key, value: try parse(value: value, index: &index))]
+							values = items + [Item.Param(key: key, value: try parse(value: value, index: &index))]
 							itemKey = nil
 							break
 						case .end, .itemSeparator:
 							guard state == .key || state == .itemValue else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: state)
+								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							if state == .key {
 								key = buffer
@@ -171,7 +173,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 									throw EliteSymbolParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))
 								}
 
-								values = items + [ItemParam(key: key, value: Item(raw: buffer))]
+								values = items + [Item.Param(key: key, value: Item(raw: buffer))]
 								itemKey = nil
 							}
 							buffer = ""
@@ -185,13 +187,13 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 							break
 						case .itemKey:
 							guard values != nil else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: state)
+								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							state = .itemKey
 							break
 						case .itemValue:
 							guard state == .itemKey else {
-								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: state)
+								throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 							}
 							itemKey = buffer
 							buffer = ""
@@ -205,7 +207,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 			}
 
 			guard state == .end else {
-				throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: state)
+				throw EliteSymbolParseError.unexpectedState(index: value.distance(from: value.startIndex, to: index), state: String(describing: state))
 			}
 
 			return Item(key: key, params: values)
