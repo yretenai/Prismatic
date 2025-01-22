@@ -10,8 +10,7 @@ public protocol PrismaticObject {
 
 /// Wrapper around JSONSerialization's [String: Any] to give some semblance of type hinting.
 public struct PrismaticJsonObject: LosslessStringConvertible {
-	@usableFromInline
-	var data: [String: Any]
+	public let data: [String: Any]
 
 	public init(_ data: [String: Any]) {
 		self.data = data
@@ -43,7 +42,7 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return String(data: data, encoding: .utf8) ?? "encode error"
 	}
 
-	@inlinable subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T) -> T {
+	@inlinable public subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T) -> T {
 		guard let value = data[key],
 			let realValue = value as? T
 		else {
@@ -53,15 +52,15 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return realValue
 	}
 
-	@inlinable subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T, nilOn nillCheck: (T) -> Bool) -> T {
-		guard let value: T = self[key, nilOn: nillCheck] else {
+	@inlinable public subscript<T>(_ key: String, default defaultValue: @autoclosure () -> T, nilOn nilCheck: (T) -> Bool) -> T {
+		guard let value: T = self[key, nilOn: nilCheck] else {
 			return defaultValue()
 		}
 
 		return value
 	}
 
-	@inlinable subscript<T>(_ key: String, nilOn nilCheck: (T) -> Bool) -> T? {
+	@inlinable public subscript<T>(_ key: String, nilOn nilCheck: (T) -> Bool) -> T? {
 		guard let value = data[key],
 			let realValue = value as? T
 		else {
@@ -75,19 +74,19 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return realValue
 	}
 
-	@inlinable subscript<T>(_ key: String) -> T? {
+	@inlinable public subscript<T>(_ key: String) -> T? {
 		return data[key] as? T
 	}
 
-	@inlinable subscript<T: PrismaticObject>(_ key: String) -> [T]? {
+	@inlinable public subscript<T: PrismaticObject>(_ key: String) -> [T]? {
 		return (data[key] as? [[String: Any]])?.map({ T(json: PrismaticJsonObject($0)) })
 	}
 
-	@inlinable subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> [T]) -> [T] {
+	@inlinable public subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> [T]) -> [T] {
 		return self[key] ?? defaultValue()
 	}
 
-	@inlinable subscript<T: PrismaticObject>(_ key: String) -> T? {
+	@inlinable public subscript<T: PrismaticObject>(_ key: String) -> T? {
 		guard let json = data[key] as? [String: Any] else {
 			return nil
 		}
@@ -95,7 +94,7 @@ public struct PrismaticJsonObject: LosslessStringConvertible {
 		return T(json: PrismaticJsonObject(json))
 	}
 
-	@inlinable subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> T) -> T {
+	@inlinable public subscript<T: PrismaticObject>(_ key: String, default defaultValue: @autoclosure () -> T) -> T {
 		return self[key] ?? defaultValue()
 	}
 }
