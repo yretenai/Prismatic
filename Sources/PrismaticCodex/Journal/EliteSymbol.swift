@@ -7,12 +7,12 @@ import Foundation
 /// A formatted symbol which may contain parameters.
 public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible {
 	public struct Item: CustomStringConvertible, CustomDebugStringConvertible {
-		public enum ParseError: Error {
+		public enum ParseError: LocalizedError {
 			case unexpectedState(index: Int, state: String)
 			case emptyItemKey(index: Int)
 			case emptyTokenKey(index: Int)
 
-			public var localizedDescription: String {
+			public var errorDescription: String {
 				switch self {
 					case .unexpectedState(let index, let state):
 						return "Did not expect to be in the \(state) state at position \(index)"

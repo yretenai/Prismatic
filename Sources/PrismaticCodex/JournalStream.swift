@@ -14,6 +14,10 @@ public final class JournalStream: FileDidChangeDelegate {
 	public static let journalVersion = 37
 
 	public init?(saveDataPath path: URL, delegate: @escaping (JournalEntry) -> Void) {
+		guard FileManager.default.fileExists(atPath: path.absoluteURL.path) else {
+			return nil
+		}
+
 		self.saveLocation = path.absoluteURL
 		self.delegate = delegate
 		monitoredFiles = [:]
