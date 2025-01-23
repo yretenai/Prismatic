@@ -154,6 +154,7 @@ public struct EliteSymbol: CustomStringConvertible, CustomDebugStringConvertible
 							}
 
 							guard let key = itemKey,
+								!key.isEmpty,
 								let items = values
 							else {
 								throw ParseError.emptyTokenKey(index: value.distance(from: value.startIndex, to: index))

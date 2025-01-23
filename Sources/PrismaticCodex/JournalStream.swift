@@ -20,24 +20,15 @@ public final class JournalStream: FileDidChangeDelegate {
 		self.monitor = nil
 		self.monitor = try? FileMonitor(directory: saveLocation, delegate: self)
 
-		if let files = try? FileManager.default.contentsOfDirectory(
-			at: saveLocation, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
-		{
+		let dirOptions: FileManager.DirectoryEnumerationOptions = [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]
+		if let files = try? FileManager.default.contentsOfDirectory(at: saveLocation, includingPropertiesForKeys: nil, options: dirOptions) {
 			// handle log files
-			for file in files {
-				guard file.pathExtension == "log" else {
-					continue
-				}
-
+			for file in files.filter({ $0.pathExtension == "log" }).sorted(by: { $0.lastPathComponent.compare($1.lastPathComponent) == .orderedAscending }) {
 				update(path: file)
 			}
 
 			// then handle jsons
-			for file in files {
-				guard file.pathExtension == "json" else {
-					continue
-				}
-
+			for file in files.filter({ $0.pathExtension == "json" }) {
 				update(path: file)
 			}
 		}
@@ -47,14 +38,17 @@ public final class JournalStream: FileDidChangeDelegate {
 	private let delegate: (JournalEntry) -> Void
 	private var monitoredFiles: [String: JournalFile]
 	private var monitor: FileMonitor?
+	public var mostRecentLog: JournalFile?
+	public var activeFiles: [JournalFile] {
+		monitoredFiles.values.filter({ !$0.isComplete })
+	}
 
 	private func update(path: URL) {
 		guard path.pathExtension == "json" || path.pathExtension == "log" else {
 			return
 		}
 
-		let component = path.lastPathComponent
-		let key = String(component[...component.index(component.endIndex, offsetBy: -4)])
+		let key = path.lastPathComponent
 		if let file = monitoredFiles[key] {
 			file.update()
 
@@ -66,9 +60,24 @@ public final class JournalStream: FileDidChangeDelegate {
 				return
 			}
 
-			if !file.isComplete {
-				monitoredFiles[key] = file
+			guard !file.isComplete else {
+				return
 			}
+
+			monitoredFiles[key] = file
+
+			guard file.isStream else {
+				return
+			}
+
+			let previous = mostRecentLog
+			mostRecentLog = file
+			guard let recent = previous else {
+				return
+			}
+
+			recent.complete()
+			monitoredFiles.removeValue(forKey: recent.path.lastPathComponent)
 		}
 	}
 

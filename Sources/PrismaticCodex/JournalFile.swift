@@ -10,6 +10,7 @@ public final class JournalFile {
 			return nil
 		}
 
+		self.path = path
 		self.handle = handle
 		self.delegate = delegate
 		isStream = path.lastPathComponent.starts(with: "Journal")
@@ -73,18 +74,32 @@ public final class JournalFile {
 
 		let journal = JournalEventRegistry.default.load(json: json)
 
+		if let header = journal as? JournalFileHeader {
+			fileHeader = header
+		}
+
 		delegate(journal)
 
-		if isStream && journal.event == .shutdown || journal.event == .continued {
-			isComplete = true
-			try? handle.close()
+		if isStream && (journal.event == .shutdown || journal.event == .continued) {
+			complete()
 		}
 
 		return true
 	}
 
+	public func complete() {
+		guard !isComplete && isStream else {
+			return
+		}
+
+		isComplete = true
+		try? handle.close()
+	}
+
+	public let path: URL
 	private let handle: FileHandle
 	public let isStream: Bool
 	public var isComplete: Bool
+	public var fileHeader: JournalFileHeader?
 	private let delegate: (JournalEntry) -> Void
 }
