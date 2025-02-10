@@ -13,7 +13,7 @@ enum PrismaticError: LocalizedError {
 			case .saveFilePathNotFound(let path):
 				return "The path \(path) does not exist."
 			case .invalidArgs:
-				return "Invalid number of arguuments provided."
+				return "Invalid number of arguments provided."
 		}
 	}
 
@@ -27,39 +27,39 @@ enum PrismaticError: LocalizedError {
 	}
 }
 
-@main
 final class Prismatic {
-	init(path logPath: String) throws {
-		self.stream = nil
+	init() {
+		do {
+			guard CommandLine.arguments.count >= 2 else {
+				throw PrismaticError.invalidArgs
+			}
 
-		guard let stream = JournalStream(saveDataPath: URL(fileURLWithPath: logPath, isDirectory: true), delegate: self.process) else {
-			throw PrismaticError.saveFilePathNotFound(path: logPath)
+			let logPath = CommandLine.arguments[1]
+			self.stream = nil
+
+			guard let stream = JournalStream(saveDataPath: URL(fileURLWithPath: logPath, isDirectory: true), delegate: self.process) else {
+				throw PrismaticError.saveFilePathNotFound(path: logPath)
+			}
+
+			self.stream = stream
+		} catch {
+			print(error.localizedDescription)
+			exit(1)
 		}
-
-		self.stream = stream
 	}
 
-	private var stream: JournalStream?
+	public var stream: JournalStream?
+	public var mostRecentEvent: Journal?
 
-	func process(event: JournalEntry) {
-		print(event)
+	func process(event: Journal) {
+		mostRecentEvent = event
+		// print(event)
 	}
 
 	func run() {
 		stream?.start()
 	}
 
-	static func main() {
-		do {
-			guard CommandLine.arguments.count >= 2 else {
-				throw PrismaticError.invalidArgs
-			}
-
-			let prismatic = try Prismatic(path: CommandLine.arguments[1])
-			prismatic.run()
-			RunLoop.current.run()
-		} catch {
-			print(error.localizedDescription)
-		}
-	}
+	@MainActor
+	public static let `default`: Prismatic = Prismatic()
 }

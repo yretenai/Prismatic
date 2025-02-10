@@ -13,7 +13,7 @@ public final class JournalStream: FileDidChangeDelegate {
 	/// ref: https://forums.frontier.co.uk/threads/journal-docs-for-odyssey-release.575010
 	public static let journalVersion = 37
 
-	public init?(saveDataPath path: URL, delegate: @escaping (JournalEntry) -> Void) {
+	public init?(saveDataPath path: URL, delegate: @escaping (Journal) -> Void) {
 		guard FileManager.default.fileExists(atPath: path.absoluteURL.path) else {
 			return nil
 		}
@@ -39,7 +39,7 @@ public final class JournalStream: FileDidChangeDelegate {
 	}
 
 	private let saveLocation: URL
-	private let delegate: (JournalEntry) -> Void
+	private let delegate: (Journal) -> Void
 	private var monitoredFiles: [String: JournalFile]
 	private var monitor: FileMonitor?
 	public var mostRecentLog: JournalFile?
@@ -52,7 +52,7 @@ public final class JournalStream: FileDidChangeDelegate {
 			return
 		}
 
-		let key = path.lastPathComponent
+		let key = path.fileNameWithoutExtension
 		if let file = monitoredFiles[key] {
 			file.update()
 
@@ -81,7 +81,7 @@ public final class JournalStream: FileDidChangeDelegate {
 			}
 
 			recent.complete()
-			monitoredFiles.removeValue(forKey: recent.path.lastPathComponent)
+			monitoredFiles.removeValue(forKey: recent.path.fileNameWithoutExtension)
 		}
 	}
 

@@ -5,7 +5,7 @@ import Foundation
 
 /// Monitors a specific journal file.
 public final class JournalFile {
-	init?(filePath path: URL, delegate: @escaping (JournalEntry) -> Void) {
+	init?(filePath path: URL, delegate: @escaping (Journal) -> Void) {
 		guard let handle = try? FileHandle(forReadingFrom: path) else {
 			return nil
 		}
@@ -72,9 +72,9 @@ public final class JournalFile {
 			return false
 		}
 
-		let journal = JournalEventRegistry.default.load(json: json)
+		let journal = Journal.Event.Registry.default.load(json: json)
 
-		if let header = journal as? JournalFileHeader {
+		if let header = journal as? Journal.FileHeader {
 			fileHeader = header
 		}
 
@@ -100,6 +100,6 @@ public final class JournalFile {
 	private let handle: FileHandle
 	public let isStream: Bool
 	public var isComplete: Bool
-	public var fileHeader: JournalFileHeader?
-	private let delegate: (JournalEntry) -> Void
+	public var fileHeader: Journal.FileHeader?
+	private let delegate: (Journal) -> Void
 }

@@ -17,7 +17,8 @@ let package = Package(
 		),
 	],
 	dependencies: [
-		.package(url: "https://github.com/yretenai/FileMonitor.git", branch: "main")
+		.package(url: "https://github.com/yretenai/FileMonitor.git", branch: "main"),
+		.package(url: "https://github.com/rensbreur/SwiftTUI.git", revision: "537133031bc2b2731048d00748c69700e1b48185"),
 	],
 	targets: [
 		.target(
@@ -28,7 +29,8 @@ let package = Package(
 		.executableTarget(
 			name: "Prismatic",
 			dependencies: [
-				.target(name: "PrismaticCodex")
+				.target(name: "PrismaticCodex"),
+				.product(name: "SwiftTUI", package: "SwiftTUI"),
 			]),
 		.testTarget(
 			name: "PrismaticCodexTests",
