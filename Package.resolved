@@ -1,0 +1,24 @@
+{
+  "originHash" : "6709d0dde0e84ed777bef525433a47c4ee31f41cfeb9e913b57ae1712d7e120c",
+  "pins" : [
+    {
+      "identity" : "filemonitor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yretenai/FileMonitor.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "20f13168f602f96e9df5322b6ad5b3c0644bf6fe"
+      }
+    },
+    {
+      "identity" : "swifttui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yretenai/SwiftTUI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6b566faa8c8de3390efdfef2273711e4f3346865"
+      }
+    }
+  ],
+  "version" : 3
+}
