@@ -4,38 +4,55 @@
 
 import PackageDescription
 
-let package = Package(
-	name: "PrismaticCodex",
-	platforms: [.macOS(.v14)],
-	products: [
-		.library(
-			name: "PrismaticCodex",
-			targets: ["PrismaticCodex"]),
+var products: [Product] = [
+	.library(
+		name: "PrismaticCodex",
+		targets: ["PrismaticCodex"])
+]
+
+var targets: [Target] = [
+	.target(
+		name: "PrismaticCodex",
+		dependencies: [
+			.product(name: "FileMonitor", package: "FileMonitor")
+		]),
+	.testTarget(
+		name: "PrismaticCodexTests",
+		dependencies: [
+			.target(name: "PrismaticCodex")
+		]),
+]
+
+var dependencies: [Package.Dependency] = [
+	.package(url: "https://github.com/yretenai/FileMonitor.git", branch: "main")
+]
+
+#if !os(Windows)
+	products += [
 		.executable(
 			name: "Prismatic",
 			targets: ["Prismatic"]
-		),
-	],
-	dependencies: [
-		.package(url: "https://github.com/yretenai/FileMonitor.git", branch: "main"),
-		.package(url: "https://github.com/yretenai/SwiftTUI.git", branch: "main"),
-	],
-	targets: [
-		.target(
-			name: "PrismaticCodex",
-			dependencies: [
-				.product(name: "FileMonitor", package: "FileMonitor")
-			]),
+		)
+	]
+
+	targets += [
 		.executableTarget(
 			name: "Prismatic",
 			dependencies: [
 				.target(name: "PrismaticCodex"),
 				.product(name: "SwiftTUI", package: "SwiftTUI"),
-			]),
-		.testTarget(
-			name: "PrismaticCodexTests",
-			dependencies: [
-				.target(name: "PrismaticCodex")
-			]),
+			])
 	]
+
+	dependencies += [
+		.package(url: "https://github.com/yretenai/SwiftTUI.git", branch: "main")
+	]
+#endif
+
+let package = Package(
+	name: "PrismaticCodex",
+	platforms: [.macOS(.v14)],
+	products: products,
+	dependencies: dependencies,
+	targets: targets
 )
